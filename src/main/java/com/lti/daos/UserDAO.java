@@ -2,13 +2,15 @@ package com.lti.daos;
 
 import org.springframework.stereotype.Repository;
 
+import com.lti.entities.UserDetails;
+
 @Repository
 public class UserDAO extends GenericDAO{
 
 	public boolean isCustomerPresent(String email) {
 		return (Long)
 				entityManager
-				.createQuery("select count(u.id) from users u where u.email = :email")
+				.createQuery("select count(u.user_id) from users u where u.email = :email")
 				.setParameter("email", email)
 				.getSingleResult() == 1 ? true : false;
 	}
@@ -21,4 +23,22 @@ public class UserDAO extends GenericDAO{
 				.setParameter("password", password)
 				.getSingleResult();
 	}
+	
+	public int findByEmail(String email) {
+		return (Integer)
+				entityManager
+				.createQuery("select u.id from users u where u.email = :email")
+				.setParameter("email", email)
+				.getSingleResult();
+	}
+	
+	public UserDetails findByEmail(int id) {
+		return (UserDetails)
+				entityManager
+				.createQuery("select * from users u where u.user_id = :id")
+				.setParameter("id", id)
+				.getSingleResult();
+	}
+	
+	
 }
