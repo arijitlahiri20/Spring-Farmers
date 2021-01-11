@@ -1,5 +1,8 @@
 package com.lti.daos;
 
-public class FarmerDAO {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class FarmerDAO extends GenericDAO{
 
 }

@@ -1,5 +1,8 @@
 package com.lti.daos;
 
-public class BidderDAO {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class BidderDAO extends GenericDAO{
 
 }
