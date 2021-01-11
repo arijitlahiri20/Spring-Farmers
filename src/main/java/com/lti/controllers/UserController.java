@@ -1,6 +1,8 @@
 package com.lti.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private MailSender mailSender;
+	
 	@GetMapping("/hello")
 	public @ResponseBody Status hellotest() {
 		try {
@@ -37,6 +42,21 @@ public class UserController {
 			status.setMessage(e.getMessage());
 			return status;
 		}
+	}
+	
+	@GetMapping("/send-email")
+	public String sendEmail() {
+		
+		String name = "Arijit";
+		String password = "12345";
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom("projectfarmers2@gmail.com");
+		message.setTo("arijit.lahiri20@gmail.com");
+		message.setSubject("New Password from Schemes for Farmers");
+		message.setText("User Name : "+name+"\nNew Password : " +password);
+		mailSender.send(message);
+		
+		return "Welcome to Spring REST";
 	}
 	
 	@PostMapping("/signup-farmer")
