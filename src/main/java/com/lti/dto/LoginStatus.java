@@ -4,6 +4,9 @@ public class LoginStatus extends Status{
 
 	private int userid;
 	private String userName;
+	private String userEmail;
+	private String userType;
+	
 	public int getUserid() {
 		return userid;
 	}
@@ -15,6 +18,18 @@ public class LoginStatus extends Status{
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 	
 	

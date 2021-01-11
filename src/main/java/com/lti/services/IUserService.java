@@ -9,7 +9,7 @@ public interface IUserService {
 	
 	public int registerBidder(UserDetails user);
 	
-	public UserDetails login(String email, String password);
+	public Users login(String email, String password);
 	
 	public int forgotpassword(String email);
 	
