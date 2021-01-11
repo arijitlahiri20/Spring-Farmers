@@ -1,5 +1,8 @@
 package com.lti.daos;
 
-public class AdminDAO {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class AdminDAO extends GenericDAO{
 
 }

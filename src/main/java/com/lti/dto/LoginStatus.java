@@ -4,17 +4,18 @@ public class LoginStatus extends Status{
 
 	private int userid;
 	private String userName;
-	
-	public int getCustomerId() {
+	public int getUserid() {
 		return userid;
 	}
-	public void setCustomerId(int customerId) {
-		this.userid = customerId;
+	public void setUserid(int userid) {
+		this.userid = userid;
 	}
-	public String getCustomerName() {
+	public String getUserName() {
 		return userName;
 	}
-	public void setCustomerName(String customerName) {
-		this.userName = customerName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
+	
+	
 }
