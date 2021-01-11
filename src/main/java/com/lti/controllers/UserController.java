@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ import com.lti.dto.RegisterStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
 import com.lti.entities.UserDetails;
+import com.lti.entities.Users;
 import com.lti.services.UserService;
 
 @RestController
@@ -44,19 +46,37 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/send-email")
-	public String sendEmail() {
-		
-		String name = "Arijit";
-		String password = "12345";
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom("projectfarmers2@gmail.com");
-		message.setTo("arijit.lahiri20@gmail.com");
-		message.setSubject("New Password from Schemes for Farmers");
-		message.setText("User Name : "+name+"\nNew Password : " +password);
-		mailSender.send(message);
-		
-		return "Welcome to Spring REST";
+	@PostMapping("/send-email")
+	public @ResponseBody Status sendEmail(@RequestParam("email") String email) {
+		try {
+			//Updating password in user_details table 
+			int id = userService.forgotpassword(email);
+			Users user = userService.getUser(id);
+			
+			//Updating password in Users table 
+			userService.updateUserPassword(id,user.getPassword());
+			
+			String name = user.getFull_name();
+			String password = user.getPassword();
+			
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setFrom("projectfarmers2@gmail.com");
+			message.setTo("arijit.lahiri20@gmail.com");
+			message.setSubject("New Password from Schemes for Farmers");
+			message.setText("User Name : "+name+"\nNew Password : " +password);
+			mailSender.send(message);
+			
+			Status status = new Status();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Updated Password Sent Successfully!");
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
 	}
 	
 	@PostMapping("/signup-farmer")
