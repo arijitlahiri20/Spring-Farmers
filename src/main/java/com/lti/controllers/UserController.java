@@ -61,7 +61,7 @@ public class UserController {
 			
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setFrom("projectfarmers2@gmail.com");
-			message.setTo("arijit.lahiri20@gmail.com");
+			message.setTo("projectfarmers2@gmail.com");
 			message.setSubject("New Password from Schemes for Farmers");
 			message.setText("User Name : "+name+"\nNew Password : " +password);
 			mailSender.send(message);
@@ -117,12 +117,14 @@ public class UserController {
 	@PostMapping("/login")
 	public LoginStatus login(@RequestBody Login login) {
 		try {
-			UserDetails user = userService.login(login.getEmail(), login.getPassword());
+			Users user = userService.login(login.getEmail(), login.getPassword());
 			LoginStatus status = new LoginStatus();
 			status.setStatus(StatusType.SUCCESS);
 			status.setMessage("Login Successful!");
 			status.setUserid(user.getUser_id());
 			status.setUserName(user.getFull_name());
+			status.setUserEmail(user.getEmail());
+			status.setUserType(user.getUser_type());
 			return status;
 		}
 		catch(Exception e) {

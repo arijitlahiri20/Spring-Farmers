@@ -26,9 +26,11 @@ public class UserService implements IUserService{
 		return 0;
 	}
 
-	public UserDetails login(String email, String password) {
-		// TODO Auto-generated method stub
-		return null;
+	public Users login(String email, String password) {
+		
+		int id = userDAO.findByEmailAndPassword(email, password);
+		Users user = userDAO.fetch(Users.class, id);
+		return user;
 	}
 
 	@Override

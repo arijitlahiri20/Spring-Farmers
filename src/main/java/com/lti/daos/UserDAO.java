@@ -18,7 +18,7 @@ public class UserDAO extends GenericDAO{
 	public int findByEmailAndPassword(String email, String password) {
 		return (Integer)
 				entityManager
-				.createQuery("select u.id from users u where u.email = :email and u.password = :password")
+				.createQuery("select u.user_id from Users u where u.email = :email and u.password = :password")
 				.setParameter("email", email)
 				.setParameter("password", password)
 				.getSingleResult();
@@ -27,7 +27,7 @@ public class UserDAO extends GenericDAO{
 	public int findByEmail(String email) {
 		return (Integer)
 				entityManager
-				.createQuery("select u.id from users u where u.email = :email")
+				.createQuery("select u.user_id from users u where u.email = :email")
 				.setParameter("email", email)
 				.getSingleResult();
 	}
