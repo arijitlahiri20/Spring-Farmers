@@ -5,15 +5,18 @@ import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "claims")
+@SequenceGenerator(name="claims_seq", initialValue=1 ,allocationSize=1)
 public class Claim {
 
 	@Id
-	@GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="claims_seq")
 	private int claim_id;
 	private int insurance_id;
 	private int policy_no;

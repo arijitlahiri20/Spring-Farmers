@@ -4,15 +4,18 @@ import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "contact_us")
+@SequenceGenerator(name="contact_us_seq", initialValue=1 ,allocationSize=1)
 public class ContactUs {
 	
 	@Id
-	@GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="contact_us_seq")
 	private int c_id;
 	
 	private String email;
