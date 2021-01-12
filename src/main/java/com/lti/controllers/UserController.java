@@ -85,7 +85,7 @@ public class UserController {
 			int id = userService.registerFarmer(user);
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(StatusType.SUCCESS);
-			status.setMessage("Registration Successful!");
+			status.setMessage("Farmer Registration Successful!");
 			status.setRegisteredCustomerId(id);
 			return status;
 		}
@@ -102,7 +102,7 @@ public class UserController {
 			int id = userService.registerBidder(user);
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(StatusType.SUCCESS);
-			status.setMessage("Registration Successful!");
+			status.setMessage("Bidder Registration Successful!");
 			status.setRegisteredCustomerId(id);
 			return status;
 		}

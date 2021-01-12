@@ -10,7 +10,7 @@ public class UserDAO extends GenericDAO{
 	public boolean isCustomerPresent(String email) {
 		return (Long)
 				entityManager
-				.createQuery("select count(u.user_id) from users u where u.email = :email")
+				.createQuery("select count(u.user_id) from UserDetails u where u.email = :email")
 				.setParameter("email", email)
 				.getSingleResult() == 1 ? true : false;
 	}
@@ -40,5 +40,8 @@ public class UserDAO extends GenericDAO{
 				.getSingleResult();
 	}
 	
+	/*
+	 * public Object save(Object obj) { return entityManager.merge(obj); }
+	 */
 	
 }
