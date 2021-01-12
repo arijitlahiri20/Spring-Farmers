@@ -63,13 +63,21 @@ public class AdminController {
 	public @ResponseBody Status approveUser(@RequestBody Users user) {
 		try {
 			int result = adminService.approveUser(user.getUser_id());
-			Status status = new Status();
-			status.setStatus(StatusType.SUCCESS);
-			status.setMessage("User Credentials Approved by Admin for Login!");
-			return status;
+			if(result==0) {
+				Status status = new Status();
+				status.setStatus(StatusType.FAILED);
+				status.setMessage("User Not found/updated!");
+				return status;
+			}
+			else {
+				Status status = new Status();
+				status.setStatus(StatusType.SUCCESS);
+				status.setMessage("User Credentials Approved by Admin for Login!");
+				return status;
+			}
 		}
 		catch(Exception e) {
-			UserApprovalListStatus status = new UserApprovalListStatus();
+			Status status = new Status();
 			status.setStatus(StatusType.FAILED);
 			status.setMessage(e.getMessage());
 			return status;

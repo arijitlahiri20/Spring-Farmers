@@ -21,10 +21,11 @@ public class AdminDAO extends GenericDAO {
 	public int updateUserStatus(int user_id) {
 		return (Integer) 
 				entityManager
-				.createQuery("Update u from UserDetails u set u.status = :status where u.user_id = :user_id",UserDetails.class)
-				.setParameter("status", "PENDING")
-				.setParameter("status", user_id)
+				.createQuery("Update UserDetails u set u.status = :status where u.user_id = :user_id")
+				.setParameter("status", "APPROVED")
+				.setParameter("user_id", user_id)
 				.executeUpdate();
 	}
+
 
 }
