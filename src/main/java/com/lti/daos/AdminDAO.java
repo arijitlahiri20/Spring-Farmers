@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.lti.entities.ContactUs;
+import com.lti.entities.SellRequests;
 import com.lti.entities.UserDetails;
 
 @Repository
@@ -25,6 +27,33 @@ public class AdminDAO extends GenericDAO {
 				.setParameter("status", "APPROVED")
 				.setParameter("user_id", user_id)
 				.executeUpdate();
+	}
+
+
+	public List<SellRequests> getAllPendingSellRequests() {
+		return (List<SellRequests>) 
+				entityManager
+				.createQuery("select u from SellRequests u where u.status = :status",SellRequests.class)
+				.setParameter("status", "PENDING")
+				.getResultList();
+	}
+
+
+	public int updateSellStatus(int sell_id, String s) {
+		return (Integer) 
+				entityManager
+				.createQuery("Update SellRequests u set u.status = :status where u.sell_id = :sell_id")
+				.setParameter("status", s)
+				.setParameter("sell_id", sell_id)
+				.executeUpdate();
+	}
+
+
+	public List<ContactUs> getAllContactUs() {
+		return (List<ContactUs>) 
+				entityManager
+				.createQuery("select u from ContactUs u",ContactUs.class)
+				.getResultList();
 	}
 
 

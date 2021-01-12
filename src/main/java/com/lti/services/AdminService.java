@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lti.daos.AdminDAO;
+import com.lti.entities.ContactUs;
+import com.lti.entities.SellRequests;
 import com.lti.entities.UserDetails;
 import com.lti.entities.Users;
 
@@ -40,4 +42,20 @@ public class AdminService implements IAdminService{
 		}
 		return res;
 	}
+
+	public List<SellRequests> getSellPendingList() {
+		List<SellRequests> list = adminDAO.getAllPendingSellRequests();
+		return list;
+	}
+
+	public int approveSellRequest(int sell_id) {
+		int res = adminDAO.updateSellStatus(sell_id, "APPROVED");
+		return res;
+	}
+
+	public List<ContactUs> getContactUsList() {
+		List<ContactUs> list = adminDAO.getAllContactUs();
+		return list;
+	}
+	
 }
