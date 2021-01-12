@@ -2,15 +2,19 @@ package com.lti.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name= "sell_requests")
+@SequenceGenerator(name="sell_requests_seq", initialValue=1 ,allocationSize=1)
+
 public class SellRequests {
 
 	@Id
-	@GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="sell_requests_seq")
 	private int sell_id;
 	
 	private int user_id;
