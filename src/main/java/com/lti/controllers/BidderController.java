@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lti.dto.BidderHistoryStatus;
+import com.lti.dto.ListStatus;
 import com.lti.dto.RegisterStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
-import com.lti.dto.UserApprovalListStatus;
 import com.lti.entities.Bids;
 import com.lti.services.BidderService;
 
@@ -65,14 +64,14 @@ public class BidderController {
 		try {
 			List<Bids> bidHistory = bidderService.getBidHistory();
 			
-			BidderHistoryStatus status = new BidderHistoryStatus();
+			ListStatus<Bids> status = new ListStatus<Bids>();
 			status.setStatus(StatusType.SUCCESS);
 			status.setMessage("Your Bid History is as Follows: ");
-			status.setBidHistory(bidHistory);
+			status.setList(bidHistory);
 			return status;
 		}
 		catch(Exception e) {
-			BidderHistoryStatus status = new BidderHistoryStatus();
+			Status status = new Status();
 			status.setStatus(StatusType.FAILED);
 			status.setMessage(e.getMessage());
 			return status;
