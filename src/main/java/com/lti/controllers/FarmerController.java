@@ -14,6 +14,7 @@ import com.lti.dto.ListStatus;
 import com.lti.dto.RegisterStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
+import com.lti.entities.Bids;
 import com.lti.entities.SellRequests;
 import com.lti.entities.SoldHistory;
 import com.lti.entities.Users;
@@ -52,6 +53,44 @@ public class FarmerController {
 			status.setStatus(StatusType.SUCCESS);
 			status.setMessage("Your Sold History is: ");
 			status.setList(soldHistory);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@PostMapping("/farmer/marketplace")
+	public @ResponseBody Status getMarketPlace(@RequestBody Users user) {
+		try {
+			List<SellRequests> sellList = farmerService.getSellRequestsByUserId(user.getUser_id());
+			
+			ListStatus<SellRequests> status = new ListStatus<SellRequests>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Current Marketplace Status for your Sell Requests are as follows : ");
+			status.setList(sellList);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@PostMapping("/farmer/marketplace/sellrequest")
+	public @ResponseBody Status getBidsForSell(@RequestBody SellRequests sell) {
+		try {
+			List<Bids> marketplace1 = farmerService.getApprovedBids(sell.getSell_id());
+			
+			ListStatus<Bids> status = new ListStatus<Bids>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Current Marketplace Status for your Sell Requests are as follows : ");
+			status.setList(marketplace1);
 			return status;
 		}
 		catch(Exception e) {
