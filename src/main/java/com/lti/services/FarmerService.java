@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.lti.daos.FarmerDAO;
 import com.lti.entities.SellRequests;
+import com.lti.entities.SoldHistory;
 
 @Service 
 @Transactional
@@ -26,6 +27,11 @@ public class FarmerService implements IFarmerService{
 	public List<SellRequests> getSellRequestsByUserId(int user_id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public List<SoldHistory> getSoldHistory(int user_id) {
+		List<SoldHistory> list = farmerDAO.getSoldHistory(user_id);
+		return list;
 	}
 	
 	
