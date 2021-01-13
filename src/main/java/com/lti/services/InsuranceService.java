@@ -54,14 +54,16 @@ public class InsuranceService implements IInsuranceService {
 
 	@Override
 	public List<Insurance> getInsurancesByUserId(int user_id) {
+		List <Insurance> list = insuranceDAO.getInsurancesByUserId(user_id);
 
-		return null;
+		return list;
 	}
 
 	@Override
-	public List<Claim> getClaimsByUserId(int user_id) {
+	public List<Claim> getClaimsByUserId(int insurance_id) {
+		List <Claim> list = insuranceDAO.getClaimsByUserId(insurance_id);
 
-		return null;
+		return list;
 	}
 
 
