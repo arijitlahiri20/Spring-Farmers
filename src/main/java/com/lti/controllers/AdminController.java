@@ -199,7 +199,7 @@ public class AdminController {
 	@PostMapping("/admin/approve-claim")
 	public @ResponseBody Status approveClaim(@RequestBody Claim claim) {
 		try {
-			int result = adminService.approveInsurance(claim.getClaim_id());
+			int result = adminService.approveClaim(claim.getClaim_id());
 			if(result==0) {
 				Status status = new Status();
 				status.setStatus(StatusType.FAILED);

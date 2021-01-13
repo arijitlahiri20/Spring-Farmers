@@ -19,6 +19,12 @@ public class InsuranceService implements IInsuranceService {
 	private InsuranceDAO insuranceDAO;
 	
 	@Override
+	public Insurance calculatePremiums(Insurance insurance) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public int registerPolicy(Insurance insurance) {
 		Insurance reg =(Insurance) insuranceDAO.save(insurance);
 		

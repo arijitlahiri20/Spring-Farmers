@@ -22,7 +22,7 @@ public class InsuranceController {
 	@Autowired
 	private InsuranceService insuranceService;
 	
-	@PostMapping("/insurance/registerPolicy")
+	@PostMapping("/farmer/insurance/registerPolicy")
 	public @ResponseBody Status registerPolicy(@RequestBody Insurance insurance) {
 		try {
 			int id = insuranceService.registerPolicy(insurance);
@@ -41,7 +41,7 @@ public class InsuranceController {
 		
 	}
 		
-		@PostMapping("/insurance/registerClaim")
+		@PostMapping("/farmer/insurance/registerClaim")
 		public @ResponseBody Status registerClaim(@RequestBody Claim claim) {
 			try {
 				int id = insuranceService.registerClaim(claim);
