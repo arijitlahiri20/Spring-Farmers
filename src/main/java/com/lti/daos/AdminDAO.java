@@ -99,8 +99,9 @@ public class AdminDAO extends GenericDAO {
 	public List<Bids> getAllBidsBySellId(int sell_id) {
 		return (List<Bids>) 
 				entityManager
-				.createQuery("select u from Bids u where u.sell_id = :sell_id",Bids.class)
-				.setParameter("sell_id", sell_id)
+				.createQuery("select u from Bids u where u.sell_id = :sell_id "
+						+ "order by u.bid_amount desc", Bids.class)
+				.setParameter("sell_id", sell_id).setMaxResults(5)
 				.getResultList();
 	}
 
