@@ -2,8 +2,6 @@ package com.lti.dto;
 
 import java.util.List;
 
-import com.lti.entities.UserDetails;
-
 public class ListStatus<E> extends Status {
 
 	private List<E> list;

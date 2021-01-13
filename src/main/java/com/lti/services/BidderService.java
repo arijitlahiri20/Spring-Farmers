@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.lti.daos.BidderDAO;
 import com.lti.entities.Bids;
+import com.lti.entities.SellRequests;
 import com.lti.entities.UserDetails;
 
 @Service
@@ -19,14 +20,21 @@ public class BidderService implements IBidderService {
 	private BidderDAO bidderDAO;
 
 	public int placeBid(Bids bid) {
-		
+
 		Bids addbid = (Bids) bidderDAO.save(bid);
 		return addbid.getBid_id();
-		
+
 	}
-	
+
 	public List<Bids> getBidHistory() {
 		List<Bids> list = bidderDAO.getBidHistory();
 		return list;
 	}
+
+	@Override
+	public List<SellRequests> getApprovedSellRequests() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

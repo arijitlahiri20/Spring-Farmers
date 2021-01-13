@@ -2,19 +2,14 @@ package com.lti.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "sell_requests")
-@SequenceGenerator(name = "sell_requests_seq", initialValue = 1, allocationSize = 1)
-public class SellRequests {
+@Table(name = "sold_history")
+public class SoldHistory {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sell_requests_seq")
 	private int sell_id;
 
 	private int user_id;
@@ -33,10 +28,7 @@ public class SellRequests {
 	@Column(name = "ph_certificate", length = 50)
 	private String ph_certificate;
 
-	private int msp;
-
-	@Column(name = "status", length = 20)
-	private String status;
+	private int sold_price;
 
 	public int getSell_id() {
 		return sell_id;
@@ -94,20 +86,12 @@ public class SellRequests {
 		this.ph_certificate = ph_certificate;
 	}
 
-	public int getMsp() {
-		return msp;
+	public int getSold_price() {
+		return sold_price;
 	}
 
-	public void setMsp(int msp) {
-		this.msp = msp;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
+	public void setSold_price(int sold_price) {
+		this.sold_price = sold_price;
 	}
 
 }

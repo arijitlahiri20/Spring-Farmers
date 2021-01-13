@@ -1,5 +1,7 @@
 package com.lti.services;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,4 +21,12 @@ public class FarmerService implements IFarmerService{
 		SellRequests sr = (SellRequests) farmerDAO.save(sell);
 		return sr.getUser_id();
 	}
+
+	@Override
+	public List<SellRequests> getSellRequestsByUserId(int user_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }
