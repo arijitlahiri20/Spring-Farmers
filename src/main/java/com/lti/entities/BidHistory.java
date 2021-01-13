@@ -15,9 +15,7 @@ public class BidHistory {
 	private int bid_id;
 
 	private int sell_id;
-
 	private int user_id;
-
 	private int bid_amount;
 
 	private Timestamp created_at;
@@ -62,6 +60,4 @@ public class BidHistory {
 		this.created_at = created_at;
 	}
 
-
-	
 }

@@ -10,14 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lti.daos.AdminDAO;
+import com.lti.entities.Claim;
 import com.lti.entities.ContactUs;
+import com.lti.entities.Insurance;
 import com.lti.entities.SellRequests;
 import com.lti.entities.UserDetails;
 import com.lti.entities.Users;
 
 @Service
 @Transactional
-public class AdminService implements IAdminService{
+public class AdminService implements IAdminService {
 
 	@Autowired
 	private AdminDAO adminDAO;
@@ -29,7 +31,7 @@ public class AdminService implements IAdminService{
 
 	public int approveUser(int user_id) {
 		int res = adminDAO.updateUserStatus(user_id);
-		if(res==1) {
+		if (res == 1) {
 			UserDetails userDetails = adminDAO.fetch(UserDetails.class, user_id);
 			Users user = new Users();
 			user.setUser_id(userDetails.getUser_id());
@@ -57,5 +59,36 @@ public class AdminService implements IAdminService{
 		List<ContactUs> list = adminDAO.getAllContactUs();
 		return list;
 	}
+
+	@Override
+	public List<Insurance> getInsurancePendingList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int approveInsurance(int insurance_id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Claim> getClaimPendingList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int approveClaim(int claim_id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int closeAuction(int sell_id, int bid_id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	
 }
