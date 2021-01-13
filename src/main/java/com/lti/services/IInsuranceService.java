@@ -9,6 +9,8 @@ public interface IInsuranceService {
 
 	public int registerPolicy(Insurance insurance);
 	
+	public Insurance calculatePremiums(Insurance insurance);
+	
 	public int registerClaim(Claim claim);
 	
 	public Insurance getInsuranceById(int insurance_id);

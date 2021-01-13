@@ -19,39 +19,51 @@ public class InsuranceService implements IInsuranceService {
 	private InsuranceDAO insuranceDAO;
 	
 	@Override
-	public int registerPolicy(Insurance insurance) {
+	public Insurance calculatePremiums(Insurance insurance) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
+	}
+
+	@Override
+	public int registerPolicy(Insurance insurance) {
+		Insurance reg =(Insurance) insuranceDAO.save(insurance);
+		
+		return reg.getInsurance_id();
 	}
 
 	@Override
 	public int registerClaim(Claim claim) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		Claim request =(Claim) insuranceDAO.save(claim);
+		
+		return request.getClaim_id();
+		
 	}
 
 	@Override
 	public Insurance getInsuranceById(int insurance_id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public Claim getClaimById(int claim_id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<Insurance> getInsurancesByUserId(int user_id) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public List<Claim> getClaimsByUserId(int user_id) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
+
+
 
 }
