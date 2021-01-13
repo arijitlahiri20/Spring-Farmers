@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lti.dto.ListStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
+import com.lti.entities.Claim;
 import com.lti.entities.ContactUs;
+import com.lti.entities.Insurance;
 import com.lti.entities.SellRequests;
 import com.lti.entities.UserDetails;
 import com.lti.entities.Users;
@@ -119,6 +121,94 @@ public class AdminController {
 				Status status = new Status();
 				status.setStatus(StatusType.SUCCESS);
 				status.setMessage("Sell Request Approved by Admin for Marketplace!");
+				return status;
+			}
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@GetMapping("/admin/insurance-approval-list")
+	public @ResponseBody Status getInsuranceApprovalList() {
+		try {
+			List<Insurance> sellRequestList = adminService.getInsurancePendingList();
+			
+			ListStatus<Insurance> status = new ListStatus<Insurance>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Insurance Approval List Successfully sent!");
+			status.setList(sellRequestList);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@PostMapping("/admin/approve-insurance")
+	public @ResponseBody Status approveInsurance(@RequestBody Insurance insurance) {
+		try {
+			int result = adminService.approveInsurance(insurance.getInsurance_id());
+			if(result==0) {
+				Status status = new Status();
+				status.setStatus(StatusType.FAILED);
+				status.setMessage("Insurance Request Not found/updated!");
+				return status;
+			}
+			else {
+				Status status = new Status();
+				status.setStatus(StatusType.SUCCESS);
+				status.setMessage("Insurance Request Approved by Admin for User!");
+				return status;
+			}
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@GetMapping("/admin/claim-approval-list")
+	public @ResponseBody Status getClaimApprovalList() {
+		try {
+			List<Claim> sellRequestList = adminService.getClaimPendingList();
+			
+			ListStatus<Claim> status = new ListStatus<Claim>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Claim Approval List Successfully sent!");
+			status.setList(sellRequestList);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@PostMapping("/admin/approve-claim")
+	public @ResponseBody Status approveClaim(@RequestBody Claim claim) {
+		try {
+			int result = adminService.approveInsurance(claim.getClaim_id());
+			if(result==0) {
+				Status status = new Status();
+				status.setStatus(StatusType.FAILED);
+				status.setMessage("Claim Request Not found/updated!");
+				return status;
+			}
+			else {
+				Status status = new Status();
+				status.setStatus(StatusType.SUCCESS);
+				status.setMessage("Claim Request Approved by Admin for User!");
 				return status;
 			}
 		}

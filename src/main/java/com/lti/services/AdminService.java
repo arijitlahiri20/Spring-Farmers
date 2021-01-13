@@ -62,26 +62,26 @@ public class AdminService implements IAdminService {
 
 	@Override
 	public List<Insurance> getInsurancePendingList() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Insurance> list = adminDAO.getAllPendingInsurance();
+		return list;
 	}
 
 	@Override
 	public int approveInsurance(int insurance_id) {
-		// TODO Auto-generated method stub
-		return 0;
+		int res = adminDAO.updateInsuranceStatus(insurance_id, "APPROVED");
+		return res;
 	}
 
 	@Override
 	public List<Claim> getClaimPendingList() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Claim> list = adminDAO.getAllPendingClaim();
+		return list;
 	}
 
 	@Override
 	public int approveClaim(int claim_id) {
-		// TODO Auto-generated method stub
-		return 0;
+		int res = adminDAO.updateClaimStatus(claim_id, "APPROVED");
+		return res;
 	}
 
 	@Override

@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.lti.entities.Claim;
 import com.lti.entities.ContactUs;
+import com.lti.entities.Insurance;
 import com.lti.entities.SellRequests;
 import com.lti.entities.UserDetails;
 
@@ -56,5 +58,41 @@ public class AdminDAO extends GenericDAO {
 				.getResultList();
 	}
 
+
+	public List<Insurance> getAllPendingInsurance() {
+		return (List<Insurance>) 
+				entityManager
+				.createQuery("select u from Insurance u where u.status = :status",Insurance.class)
+				.setParameter("status", "PENDING")
+				.getResultList();
+	}
+
+
+	public int updateInsuranceStatus(int insurance_id, String s) {
+		return (Integer) 
+				entityManager
+				.createQuery("Update Insurance u set u.status = :status where u.insurance_id = :insurance_id")
+				.setParameter("status", s)
+				.setParameter("insurance_id", insurance_id)
+				.executeUpdate();
+	}
+	
+	public List<Claim> getAllPendingClaim() {
+		return (List<Claim>) 
+				entityManager
+				.createQuery("select u from Claim u where u.status = :status",Claim.class)
+				.setParameter("status", "PENDING")
+				.getResultList();
+	}
+
+
+	public int updateClaimStatus(int claim_id, String s) {
+		return (Integer) 
+				entityManager
+				.createQuery("Update Claim u set u.status = :status where u.claim_id = :claim_id")
+				.setParameter("status", s)
+				.setParameter("claim_id", claim_id)
+				.executeUpdate();
+	}
 
 }
