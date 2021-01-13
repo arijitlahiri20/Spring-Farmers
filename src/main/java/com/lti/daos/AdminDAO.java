@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.lti.entities.Bids;
 import com.lti.entities.Claim;
 import com.lti.entities.ContactUs;
 import com.lti.entities.Insurance;
@@ -94,5 +95,54 @@ public class AdminDAO extends GenericDAO {
 				.setParameter("claim_id", claim_id)
 				.executeUpdate();
 	}
+	
+	public List<Bids> getAllBidsBySellId(int sell_id) {
+		return (List<Bids>) 
+				entityManager
+				.createQuery("select u from Bids u where u.sell_id = :sell_id",Bids.class)
+				.setParameter("sell_id", sell_id)
+				.getResultList();
+	}
+
+	public int closeBid(int bid_id, String s) {
+		return (Integer) 
+				entityManager
+				.createQuery("Update Bids u set u.status = :status where u.bid_id = :bid_id")
+				.setParameter("status", s)
+				.setParameter("bid_id", bid_id)
+				.executeUpdate();
+	}
+
+
+	public int closeSell(int sell_id, String s) {
+		return (Integer) 
+				entityManager
+				.createQuery("Update SellRequests u set u.status = :status where u.sell_id = :sell_id")
+				.setParameter("status", s)
+				.setParameter("sell_id", sell_id)
+				.executeUpdate();
+	}
+
+
+	public int updateRemainingBidStatus(int sell_id,int bid_id, String s) {
+		return (Integer) 
+				entityManager
+				.createQuery("Update Bids u set u.status = :status where u.sell_id = :sell_id and u.bid_id != :bid_id")
+				.setParameter("status", s)
+				.setParameter("sell_id", sell_id)
+				.setParameter("bid_id", bid_id)
+				.executeUpdate();
+		
+	}
+
+
+	public List<SellRequests> getAllApprovedSellRequests() {
+		return (List<SellRequests>) 
+				entityManager
+				.createQuery("select u from SellRequests u where u.status = :status",SellRequests.class)
+				.setParameter("status", "APPROVED")
+				.getResultList();
+	}
+
 
 }

@@ -2,6 +2,7 @@ package com.lti.services;
 
 import java.util.List;
 
+import com.lti.entities.Bids;
 import com.lti.entities.Claim;
 import com.lti.entities.ContactUs;
 import com.lti.entities.Insurance;
@@ -27,6 +28,10 @@ public interface IAdminService {
 	public List<Claim> getClaimPendingList();
 	
 	public int approveClaim(int claim_id);
+	
+	public List<SellRequests> getApprovedSellList();
+	
+	public List<Bids> getBidsList(int sell_id);
 	
 	public int closeAuction(int sell_id, int bid_id);
 	
