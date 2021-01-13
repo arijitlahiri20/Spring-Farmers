@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lti.dto.ListStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
+import com.lti.entities.Bids;
+import com.lti.entities.Claim;
 import com.lti.entities.ContactUs;
+import com.lti.entities.Insurance;
 import com.lti.entities.SellRequests;
 import com.lti.entities.UserDetails;
 import com.lti.entities.Users;
@@ -130,6 +133,94 @@ public class AdminController {
 		}
 	}
 	
+	@GetMapping("/admin/insurance-approval-list")
+	public @ResponseBody Status getInsuranceApprovalList() {
+		try {
+			List<Insurance> sellRequestList = adminService.getInsurancePendingList();
+			
+			ListStatus<Insurance> status = new ListStatus<Insurance>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Insurance Approval List Successfully sent!");
+			status.setList(sellRequestList);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@PostMapping("/admin/approve-insurance")
+	public @ResponseBody Status approveInsurance(@RequestBody Insurance insurance) {
+		try {
+			int result = adminService.approveInsurance(insurance.getInsurance_id());
+			if(result==0) {
+				Status status = new Status();
+				status.setStatus(StatusType.FAILED);
+				status.setMessage("Insurance Request Not found/updated!");
+				return status;
+			}
+			else {
+				Status status = new Status();
+				status.setStatus(StatusType.SUCCESS);
+				status.setMessage("Insurance Request Approved by Admin for User!");
+				return status;
+			}
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@GetMapping("/admin/claim-approval-list")
+	public @ResponseBody Status getClaimApprovalList() {
+		try {
+			List<Claim> sellRequestList = adminService.getClaimPendingList();
+			
+			ListStatus<Claim> status = new ListStatus<Claim>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Claim Approval List Successfully sent!");
+			status.setList(sellRequestList);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@PostMapping("/admin/approve-claim")
+	public @ResponseBody Status approveClaim(@RequestBody Claim claim) {
+		try {
+			int result = adminService.approveInsurance(claim.getClaim_id());
+			if(result==0) {
+				Status status = new Status();
+				status.setStatus(StatusType.FAILED);
+				status.setMessage("Claim Request Not found/updated!");
+				return status;
+			}
+			else {
+				Status status = new Status();
+				status.setStatus(StatusType.SUCCESS);
+				status.setMessage("Claim Request Approved by Admin for User!");
+				return status;
+			}
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
 	@GetMapping("/admin/contact-us-list")
 	public @ResponseBody Status getContactUsList() {
 		try {
@@ -140,6 +231,69 @@ public class AdminController {
 			status.setMessage("Contact Us List Successfully sent!");
 			status.setList(contactUsList);
 			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@GetMapping("/admin/approved-sell-list")
+	public @ResponseBody Status getApprovedSellList() {
+		try {
+			List<SellRequests> contactUsList = adminService.getApprovedSellList();
+			
+			ListStatus<SellRequests> status = new ListStatus<SellRequests>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Approved Sell Requests List Successfully sent!");
+			status.setList(contactUsList);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@PostMapping("/admin/bids-list")
+	public @ResponseBody Status getContactUsList(@RequestBody SellRequests sell) {
+		try {
+			List<Bids> bidsList = adminService.getBidsList(sell.getSell_id());
+			
+			ListStatus<Bids> status = new ListStatus<Bids>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("BIds List for sell_id Successfully sent!");
+			status.setList(bidsList);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@PostMapping("/admin/close-auction")
+	public @ResponseBody Status approveClaim(@RequestBody Bids bid) {
+		try {
+			int result = adminService.closeAuction(bid.getSell_id(), bid.getBid_id());
+			if(result==0) {
+				Status status = new Status();
+				status.setStatus(StatusType.FAILED);
+				status.setMessage("Bids and Sell Not found/updated!");
+				return status;
+			}
+			else {
+				Status status = new Status();
+				status.setStatus(StatusType.SUCCESS);
+				status.setMessage("Auction closed by admin and sold to highest bidder!");
+				return status;
+			}
 		}
 		catch(Exception e) {
 			Status status = new Status();

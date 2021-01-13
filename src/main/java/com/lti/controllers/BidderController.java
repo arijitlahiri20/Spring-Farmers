@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,10 @@ import com.lti.dto.ListStatus;
 import com.lti.dto.RegisterStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
+import com.lti.entities.BidHistory;
 import com.lti.entities.Bids;
+import com.lti.entities.SellRequests;
+import com.lti.entities.Users;
 import com.lti.services.BidderService;
 
 @RestController
@@ -59,12 +63,12 @@ public class BidderController {
 		}
 	}
 	
-	@GetMapping("/bidder/bid-history")
-	public @ResponseBody Status getBidHistory() {
+	@PostMapping("/bidder/bid-history")
+	public @ResponseBody Status getBidHistory(@RequestBody Users user) {
 		try {
-			List<Bids> bidHistory = bidderService.getBidHistory();
+			List<BidHistory> bidHistory = bidderService.getBidHistory(user.getUser_id());
 			
-			ListStatus<Bids> status = new ListStatus<Bids>();
+			ListStatus<BidHistory> status = new ListStatus<BidHistory>();
 			status.setStatus(StatusType.SUCCESS);
 			status.setMessage("Your Bid History is as Follows: ");
 			status.setList(bidHistory);
@@ -78,5 +82,23 @@ public class BidderController {
 		}
 	}
 	
+	@GetMapping("/bidder/marketplace")
+	public @ResponseBody Status getMarketPlace() {
+		try {
+			List<SellRequests> marketplace = bidderService.getApprovedSellRequests();
+			
+			ListStatus<SellRequests> status = new ListStatus<SellRequests>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Current Marketplace for crops are as follows : ");
+			status.setList(marketplace);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
 	
 }
