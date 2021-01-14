@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lti.dto.ListStatus;
+import com.lti.dto.ObjectStatus;
 import com.lti.dto.RegisterStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
 import com.lti.entities.Claim;
 import com.lti.entities.Insurance;
-import com.lti.entities.SellRequests;
-import com.lti.entities.SoldHistory;
 import com.lti.entities.Users;
 import com.lti.services.InsuranceService;
 
@@ -27,9 +26,29 @@ public class InsuranceController {
 	@Autowired
 	private InsuranceService insuranceService;
 	
+	@PostMapping("/farmer/insurance/calculate")
+	public @ResponseBody Status calculatePremium(@RequestBody Insurance insurance) {
+		try {
+			Insurance i = insuranceService.calculatePremiums(insurance);
+			ObjectStatus status = new ObjectStatus();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Insurance applied");
+			status.setObject(i);;
+			return status;
+		}
+		catch(Exception e) {
+			RegisterStatus status = new RegisterStatus();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+		
+	}
+	
 	@PostMapping("/farmer/insurance/registerPolicy")
 	public @ResponseBody Status registerPolicy(@RequestBody Insurance insurance) {
 		try {
+			insurance.setStatus("PENDING");
 			int id = insuranceService.registerPolicy(insurance);
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(StatusType.SUCCESS);
@@ -49,6 +68,7 @@ public class InsuranceController {
 		@PostMapping("/farmer/insurance/registerClaim")
 		public @ResponseBody Status registerClaim(@RequestBody Claim claim) {
 			try {
+				claim.setStatus("PENDING");
 				int id = insuranceService.registerClaim(claim);
 				RegisterStatus status = new RegisterStatus();
 				status.setStatus(StatusType.SUCCESS);

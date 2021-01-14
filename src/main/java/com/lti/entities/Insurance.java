@@ -36,8 +36,7 @@ public class Insurance {
 	@Column(name = "insurance_company", length = 30)
 	private String insurance_company;
 
-	@Column(name = "policy_no", length = 20)
-	private String policy_no;
+	private int policy_no;
 
 	@Column(name = "status", length = 20)
 	private String status;
@@ -116,11 +115,11 @@ public class Insurance {
 		this.insurance_company = insurance_company;
 	}
 
-	public String getPolicy_no() {
+	public int getPolicy_no() {
 		return policy_no;
 	}
 
-	public void setPolicy_no(String policy_no) {
+	public void setPolicy_no(int policy_no) {
 		this.policy_no = policy_no;
 	}
 

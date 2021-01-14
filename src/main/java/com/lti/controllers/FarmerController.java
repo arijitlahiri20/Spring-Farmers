@@ -30,6 +30,7 @@ public class FarmerController {
 	@PostMapping("/farmer/place-sell-request")
 	public @ResponseBody Status placeSellRequest(@RequestBody SellRequests sell) {
 		try {
+			sell.setStatus("PENDING");
 			int id = farmerService.placeSellRequest(sell);
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(StatusType.SUCCESS);

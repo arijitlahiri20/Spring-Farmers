@@ -48,6 +48,7 @@ public class BidderController {
 	@PostMapping("/bidder/place-bid")
 	public @ResponseBody Status registerBidder(@RequestBody Bids bid) {
 		try {
+			bid.setStatus("PENDING");
 			int id = bidderService.placeBid(bid);
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(StatusType.SUCCESS);

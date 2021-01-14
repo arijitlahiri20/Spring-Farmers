@@ -85,6 +85,7 @@ public class UserController {
 	@PostMapping("/signup-farmer")
 	public @ResponseBody RegisterStatus registerFarmer(@RequestBody UserDetails user) {
 		try {
+			user.setState("PENDING");
 			int id = userService.registerFarmer(user);
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(StatusType.SUCCESS);
@@ -102,6 +103,7 @@ public class UserController {
 	@PostMapping("/signup-bidder")
 	public @ResponseBody RegisterStatus registerBidder(@RequestBody UserDetails user) {
 		try {
+			user.setState("PENDING");
 			int id = userService.registerBidder(user);
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(StatusType.SUCCESS);
