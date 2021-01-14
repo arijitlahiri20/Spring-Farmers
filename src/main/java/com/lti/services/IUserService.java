@@ -1,5 +1,6 @@
 package com.lti.services;
 
+import com.lti.dto.UploadDocuments;
 import com.lti.entities.UserDetails;
 import com.lti.entities.Users;
 
@@ -16,6 +17,9 @@ public interface IUserService {
 	public UserDetails getUserDetails(int id);
 	
 	public Users getUser(int id);
+	
+	//public int uploadDocuments(UploadDocuments docs);
 
+	public UploadDocuments downloadDocuments(int user_id);
 
 }

@@ -1,5 +1,7 @@
 package com.lti.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -11,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lti.dto.Login;
 import com.lti.dto.LoginStatus;
+import com.lti.dto.ObjectStatus;
 import com.lti.dto.RegisterStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
+import com.lti.dto.UploadDocuments;
 import com.lti.entities.UserDetails;
 import com.lti.entities.Users;
 import com.lti.services.UserService;
@@ -114,8 +117,69 @@ public class UserController {
 		}
 	}
 	
+	@PostMapping("/document-upload")
+	public @ResponseBody RegisterStatus documentUpload(UploadDocuments docs, HttpServletRequest request) {
+		try {
+			int res = userService.uploadDocuments(docs,request);
+			if(res==0) {
+				RegisterStatus status = new RegisterStatus();
+				status.setStatus(StatusType.FAILED);
+				status.setMessage("Failed to upload Files");
+				return status;
+			}
+			RegisterStatus status = new RegisterStatus();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Documents Upload Successful!");
+			status.setRegisteredCustomerId(docs.getUser_id());;
+			return status;
+		}
+		catch(Exception e) {
+			RegisterStatus status = new RegisterStatus();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	
+	@PostMapping("/getUserDetails")
+	public @ResponseBody ObjectStatus getUser(@RequestBody UserDetails user) {
+		try {
+			UserDetails u = userService.getUserDetails(user.getUser_id());
+			ObjectStatus status = new ObjectStatus();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Bidder Registration Successful!");
+			status.setObject(u);
+			return status;
+		}
+		catch(Exception e) {
+			ObjectStatus status = new ObjectStatus();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@PostMapping("/getUser")
+	public @ResponseBody ObjectStatus getUser(@RequestBody Users user) {
+		try {
+			Users u = userService.getUser(user.getUser_id());
+			ObjectStatus status = new ObjectStatus();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Bidder Registration Successful!");
+			status.setObject(u);
+			return status;
+		}
+		catch(Exception e) {
+			ObjectStatus status = new ObjectStatus();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
 	@PostMapping("/login")
-	public LoginStatus login(@RequestBody Login login) {
+	public LoginStatus login(@RequestBody Users login) {
 		try {
 			Users user = userService.login(login.getEmail(), login.getPassword());
 			LoginStatus status = new LoginStatus();
