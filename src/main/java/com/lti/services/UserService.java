@@ -97,31 +97,25 @@ public class UserService implements IUserService {
 		int id = docs.getUser_id();
 		UserDetails user = getUserDetails(id);
 		MultipartFile aadhar = docs.getAadhar();
-		MultipartFile pan = docs.getAadhar();
-		MultipartFile certificate = null;
-		MultipartFile trader_licence = null;
-		if(user.getUser_type().equals("FARMER")) {
-			certificate = docs.getCertificate();
-		}
-		else if(user.getUser_type().equals("BIDDER")){
-			trader_licence = docs.getTrader_licence();
-		}
+		MultipartFile pan = docs.getPan();
+		MultipartFile certificate = docs.getCertificate();
+		MultipartFile trader_licence = docs.getTrader_licence();
 		
-		String docUploadLocation = "d:/uploads/";
-		String targetAadharName = docUploadLocation + id + "-" + "Aadhar";
-		String targetPanName = docUploadLocation + id + "-" + "Pan";
-		String targetCertificateName = docUploadLocation + id + "-" + "Certificate";
-		String targetTraderLicenceName = docUploadLocation + id + "-" + "TraderLicence";
+		String docUploadLocation = "c:/uploads/";
+		//String docUploadLocation = "/Users/rumilahiri/Desktop/Arijit/LTI /Project Gladiator/uploads/";
+		String targetAadharName = id + "_Aadhar_" + aadhar.getOriginalFilename();
+		String targetPanName = id + "_Pan_" + pan.getOriginalFilename();
+		String targetCertificateName = id + "_Certificate_" + certificate.getOriginalFilename();
+		String targetTraderLicenceName = id + "_TraderLicence_" + trader_licence.getOriginalFilename();
 		
-		System.out.println(docs);
 		try {
-			FileCopyUtils.copy(aadhar.getBytes(), new FileOutputStream(targetAadharName));
-			FileCopyUtils.copy(pan.getInputStream(), new FileOutputStream(targetPanName));
+			FileCopyUtils.copy(aadhar.getBytes(), new FileOutputStream(docUploadLocation+targetAadharName));
+			FileCopyUtils.copy(pan.getInputStream(), new FileOutputStream(docUploadLocation+targetPanName));
 			if(user.getUser_type().equals("FARMER")) {
-				FileCopyUtils.copy(certificate.getInputStream(), new FileOutputStream(targetCertificateName));
+				FileCopyUtils.copy(certificate.getInputStream(), new FileOutputStream(docUploadLocation+targetCertificateName));
 			}
 			else if(user.getUser_type().equals("BIDDER")){
-				FileCopyUtils.copy(trader_licence.getInputStream(), new FileOutputStream(targetTraderLicenceName));
+				FileCopyUtils.copy(trader_licence.getInputStream(), new FileOutputStream(docUploadLocation+targetTraderLicenceName));
 			}
 		} catch(IOException e) {
 			e.printStackTrace();
