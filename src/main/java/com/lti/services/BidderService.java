@@ -46,4 +46,9 @@ public class BidderService implements IBidderService {
 		return list;
 	}
 
+	public List<Bids> getTopBids(int sell_id) {
+		List<Bids> list = bidderDAO.getTopBids(sell_id);
+		return list;
+	}
+
 }
