@@ -54,7 +54,7 @@ public class AdminService implements IAdminService {
 		String targetCertificateName = tempDownloadPath + user.getCertificate();
 		String targetTraderLicenceName = tempDownloadPath + user.getTrader_license();
 
-		 String uploadedImagesPath = "c:/uploads/";
+		String uploadedImagesPath = "c:/uploads/";
 		//String uploadedImagesPath = "/Users/rumilahiri/Desktop/Arijit/LTI /Project Gladiator/uploads/";
 
 		String sourceAadharName = uploadedImagesPath + user.getAadhar();

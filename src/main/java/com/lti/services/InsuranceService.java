@@ -34,7 +34,7 @@ public class InsuranceService implements IInsuranceService {
 		}
 		insurance.setPremium_amount(prem_amount);
 		insurance.setPolicy_no(insurance.getInsurance_id());
-		
+		insurance.setInsurance_company("Farmers Inc.");
 
 		return insurance;
 	}
