@@ -20,8 +20,23 @@ public class InsuranceService implements IInsuranceService {
 	
 	@Override
 	public Insurance calculatePremiums(Insurance insurance) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int amount=insurance.getSum_insured()*insurance.getArea();
+		int prem_amount = 0;
+		if(insurance.getSeason().equals("SUMMER")) {
+			prem_amount = Math.round(amount/18);
+		}
+		else if(insurance.getSeason().equals("WINTER")) {
+			prem_amount = Math.round(amount/6);
+		}
+		if(insurance.getSeason().equals("SPRING")) {
+			prem_amount = Math.round(amount/12);
+		}
+		insurance.setPremium_amount(prem_amount);
+		insurance.setPolicy_no(insurance.getInsurance_id());
+		
+
+		return insurance;
 	}
 
 	@Override
@@ -54,14 +69,16 @@ public class InsuranceService implements IInsuranceService {
 
 	@Override
 	public List<Insurance> getInsurancesByUserId(int user_id) {
+		List <Insurance> list = insuranceDAO.getInsurancesByUserId(user_id);
 
-		return null;
+		return list;
 	}
 
 	@Override
-	public List<Claim> getClaimsByUserId(int user_id) {
+	public List<Claim> getClaimsByUserId(int insurance_id) {
+		List <Claim> list = insuranceDAO.getClaimsByUserId(insurance_id);
 
-		return null;
+		return list;
 	}
 
 

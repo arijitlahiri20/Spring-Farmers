@@ -19,5 +19,11 @@ public class GenericDAO {
 		return e;
 	}
 	
+	public void delete(Object pk) {
+		entityManager.remove(pk); 
+	}
+	
+	
+	
 	
 }

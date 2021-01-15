@@ -1,11 +1,19 @@
 package com.lti.services;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lti.daos.UserDAO;
+import com.lti.dto.UploadDocuments;
 import com.lti.entities.UserDetails;
 import com.lti.entities.Users;
 import com.lti.exception.UserServiceException;
@@ -84,5 +92,54 @@ public class UserService implements IUserService {
 		userDAO.save(user);
 
 	}
+
+	public int uploadDocuments(UploadDocuments docs, HttpServletRequest request) {
+		int id = docs.getUser_id();
+		UserDetails user = getUserDetails(id);
+		MultipartFile aadhar = docs.getAadhar();
+		MultipartFile pan = docs.getPan();
+		MultipartFile certificate = docs.getCertificate();
+		MultipartFile trader_licence = docs.getTrader_licence();
+		
+		String docUploadLocation = "c:/uploads/";
+		//String docUploadLocation = "/Users/rumilahiri/Desktop/Arijit/LTI /Project Gladiator/uploads/";
+		String targetAadharName = id + "_Aadhar_" + aadhar.getOriginalFilename();
+		String targetPanName = id + "_Pan_" + pan.getOriginalFilename();
+		String targetCertificateName = id + "_Certificate_" + certificate.getOriginalFilename();
+		String targetTraderLicenceName = id + "_TraderLicence_" + trader_licence.getOriginalFilename();
+		
+		try {
+			FileCopyUtils.copy(aadhar.getBytes(), new FileOutputStream(docUploadLocation+targetAadharName));
+			FileCopyUtils.copy(pan.getInputStream(), new FileOutputStream(docUploadLocation+targetPanName));
+			if(user.getUser_type().equals("FARMER")) {
+				FileCopyUtils.copy(certificate.getInputStream(), new FileOutputStream(docUploadLocation+targetCertificateName));
+			}
+			else if(user.getUser_type().equals("BIDDER")){
+				FileCopyUtils.copy(trader_licence.getInputStream(), new FileOutputStream(docUploadLocation+targetTraderLicenceName));
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
+		user.setAadhar(targetAadharName);
+		user.setPan(targetPanName);
+		if(user.getUser_type().equals("FARMER")) {
+			user.setCertificate(targetCertificateName);
+		}
+		else if(user.getUser_type().equals("BIDDER")){
+			user.setTrader_license(targetTraderLicenceName);;
+		}
+		userDAO.save(user);
+		return 1;
+	}
+
+	@Override
+	public UploadDocuments downloadDocuments(int user_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 
 }

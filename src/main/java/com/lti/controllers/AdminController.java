@@ -2,15 +2,19 @@ package com.lti.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lti.dto.ListStatus;
+import com.lti.dto.ObjectStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
 import com.lti.entities.Bids;
@@ -58,6 +62,24 @@ public class AdminController {
 		}
 		catch(Exception e) {
 			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@GetMapping("/admin/view-document")
+	public @ResponseBody Status downloadDocuments(@RequestParam("user_id") int id, HttpServletRequest request) {
+		try {
+			UserDetails u = adminService.downloadDocuments(id, request);
+			ObjectStatus status = new ObjectStatus();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Bidder Registration Successful!");
+			status.setObject(u);
+			return status;
+		}
+		catch(Exception e) {
+			ObjectStatus status = new ObjectStatus();
 			status.setStatus(StatusType.FAILED);
 			status.setMessage(e.getMessage());
 			return status;

@@ -2,6 +2,9 @@ package com.lti.services;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import com.lti.dto.UploadDocuments;
 import com.lti.entities.Bids;
 import com.lti.entities.Claim;
 import com.lti.entities.ContactUs;
@@ -12,6 +15,8 @@ import com.lti.entities.UserDetails;
 public interface IAdminService {
 
 	public List<UserDetails> getUserPendingList();
+	
+	public UserDetails downloadDocuments(int user_id, HttpServletRequest request);
 	
 	public int approveUser(int user_id);
 	
