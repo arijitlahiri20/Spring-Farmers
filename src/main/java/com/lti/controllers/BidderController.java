@@ -102,4 +102,25 @@ public class BidderController {
 		}
 	}
 	
+	@PostMapping("/bidder/topbid")
+	public @ResponseBody Status getBidsForSell(@RequestBody SellRequests sell) {
+		try {
+			List<Bids> topbids = bidderService.getTopBids(sell.getSell_id());
+			
+			ListStatus<Bids> status = new ListStatus<Bids>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Current Top Bids are : ");
+			status.setList(topbids);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	
+	
 }
