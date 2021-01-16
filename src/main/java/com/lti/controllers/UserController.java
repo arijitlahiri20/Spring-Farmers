@@ -50,10 +50,10 @@ public class UserController {
 	}
 	
 	@PostMapping("/send-email")
-	public @ResponseBody Status sendEmail(@RequestParam("email") String email) {
+	public @ResponseBody Status sendEmail(@RequestBody Users u) {
 		try {
 			//Updating password in user_details table 
-			int id = userService.forgotpassword(email);
+			int id = userService.forgotpassword(u.getEmail());
 			Users user = userService.getUser(id);
 			
 			//Updating password in Users table 
@@ -85,7 +85,7 @@ public class UserController {
 	@PostMapping("/signup-farmer")
 	public @ResponseBody RegisterStatus registerFarmer(@RequestBody UserDetails user) {
 		try {
-			user.setState("PENDING");
+			user.setStatus("PENDING");
 			int id = userService.registerFarmer(user);
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(StatusType.SUCCESS);
@@ -103,7 +103,7 @@ public class UserController {
 	@PostMapping("/signup-bidder")
 	public @ResponseBody RegisterStatus registerBidder(@RequestBody UserDetails user) {
 		try {
-			user.setState("PENDING");
+			user.setStatus("PENDING");
 			int id = userService.registerBidder(user);
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(StatusType.SUCCESS);
