@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.lti.entities.BidHistory;
+import com.lti.entities.Bids;
 import com.lti.entities.SellRequests;
 
 @Repository
@@ -31,6 +32,18 @@ public class BidderDAO extends GenericDAO {
 				.createQuery("select count(*) from SellRequests s where s.sell_id = :sell_id")
 				.setParameter("sell_id", sell_id)
 				.getSingleResult() == 1 ? true : false;
+	}
+
+	public List<Bids> getTopBids(int sell_id) {
+		
+		return (List<Bids>) 
+				entityManager
+				.createQuery("select u from Bids u where u.sell_id = :sell_id "+"and status=:status "
+						+ "order by u.bid_amount desc", Bids.class)
+				.setParameter("sell_id", sell_id)
+				.setParameter("status", "PENDING").
+				setMaxResults(5)
+				.getResultList();
 	}
 	
 
