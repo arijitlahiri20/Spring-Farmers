@@ -1,5 +1,6 @@
 package com.lti.entities;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -32,7 +33,7 @@ public class Claim {
 	@Column(name = "loss_cause", length = 100)
 	private String loss_cause;
 
-	private Timestamp loss_date;
+	private Date loss_date;
 
 	@Column(name = "status", length = 20)
 	private String status;
@@ -95,11 +96,11 @@ public class Claim {
 		this.loss_cause = loss_cause;
 	}
 
-	public Timestamp getLoss_date() {
+	public Date getLoss_date() {
 		return loss_date;
 	}
 
-	public void setLoss_date(Timestamp loss_date) {
+	public void setLoss_date(Date loss_date) {
 		this.loss_date = loss_date;
 	}
 
