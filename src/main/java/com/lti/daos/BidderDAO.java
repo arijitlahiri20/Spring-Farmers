@@ -45,6 +45,16 @@ public class BidderDAO extends GenericDAO {
 				setMaxResults(5)
 				.getResultList();
 	}
+
+	public List<Bids> getActiveBids(int user_id) {
+		
+		return (List<Bids>) 
+				entityManager
+				.createQuery("select u from Bids u where u.user_id = :user_id "+"and status=:status ", Bids.class)
+				.setParameter("user_id", user_id)
+				.setParameter("status", "PENDING").
+				getResultList();
+	}
 	
 
 }
