@@ -26,7 +26,7 @@ public class FarmerService implements IFarmerService{
 
 	public int placeSellRequest(SellRequests sell) {
 		SellRequests sr = (SellRequests) farmerDAO.save(sell);
-		return sr.getUser_id();
+		return sr.getSell_id();
 	}
 	
 	public int uploadPhCertificate(UploadPh docs) {
