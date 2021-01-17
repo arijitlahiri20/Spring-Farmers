@@ -122,5 +122,24 @@ public class BidderController {
 	}
 	
 	
+	@PostMapping("/bidder/active-bids")
+	public @ResponseBody Status getActiveBids(@RequestBody Users user) {
+		try {
+			List<Bids> activeBids = bidderService.getActiveBids(user.getUser_id());
+			
+			ListStatus<Bids> status = new ListStatus<Bids>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Your Active Bids are ");
+			status.setList(activeBids);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
 	
 }
