@@ -46,12 +46,13 @@ public class BidderDAO extends GenericDAO {
 				.getResultList();
 	}
 
-	public List<Bids> getActiveBids(int user_id) {
+	public List<Bids> getActiveBids(int user_id, int sell_id) {
 		
 		return (List<Bids>) 
 				entityManager
-				.createQuery("select u from Bids u where u.user_id = :user_id "+"and status=:status ", Bids.class)
+				.createQuery("select u from Bids u where u.user_id = :user_id "+"and sell_id=:sell_id "+"and status=:status ", Bids.class)
 				.setParameter("user_id", user_id)
+				.setParameter("sell_id", sell_id)
 				.setParameter("status", "PENDING").
 				getResultList();
 	}
