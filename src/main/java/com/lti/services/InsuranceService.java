@@ -1,5 +1,6 @@
 package com.lti.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -21,22 +22,36 @@ public class InsuranceService implements IInsuranceService {
 	@Override
 	public Insurance calculatePremiums(Insurance insurance) {
 		
-		int amount=insurance.getSum_insured()*insurance.getArea();
+		insurance.setSeason(insurance.getSeason().toUpperCase());
+		insurance.setCrop(insurance.getCrop().toUpperCase());
+		Insurance ins = (Insurance) insuranceDAO.save(insurance);
+		int amount=ins.getSum_insured()*ins.getArea();
 		int prem_amount = 0;
-		if(insurance.getSeason().equals("SUMMER")) {
+		if(ins.getSeason().equals("SUMMER")) {
 			prem_amount = Math.round(amount/18);
 		}
-		else if(insurance.getSeason().equals("WINTER")) {
+		else if(ins.getSeason().equals("WINTER")) {
 			prem_amount = Math.round(amount/6);
 		}
-		if(insurance.getSeason().equals("SPRING")) {
+		if(ins.getSeason().equals("SPRING")) {
 			prem_amount = Math.round(amount/12);
 		}
-		insurance.setPremium_amount(prem_amount);
-		insurance.setPolicy_no(insurance.getInsurance_id());
-		insurance.setInsurance_company("Farmers Inc.");
+		float share = 0;
+		if(ins.getSeason().equals("RABI")) {
+			share = Math.round(prem_amount*1.5/100);
+		}
+		else if(ins.getSeason().equals("KHARIF")) {
+			share = Math.round(prem_amount*2/100);
+		}
+		if(ins.getSeason().equals("HORTICULTURE")) {
+			share = Math.round(prem_amount*5/100);
+		}
+		ins.setShare_premium(share);
+		ins.setPremium_amount(prem_amount);
+		ins.setPolicy_no(insurance.getInsurance_id());
+		ins.setInsurance_company("Farmers Inc.");
 
-		return insurance;
+		return ins;
 	}
 
 	@Override
@@ -75,10 +90,27 @@ public class InsuranceService implements IInsuranceService {
 	}
 
 	@Override
-	public List<Claim> getClaimsByUserId(int insurance_id) {
-		List <Claim> list = insuranceDAO.getClaimsByUserId(insurance_id);
+	public List<Claim> getClaimsByInsuranceId(int insurance_id) {
+		List <Claim> list = insuranceDAO.getClaimsByInsuranceId(insurance_id);
 
 		return list;
+	}
+
+	public List<Insurance> getInuranceHistory(int user_id) {
+		List <Insurance> list = insuranceDAO.getInsurancesHistoryByUserId(user_id);
+		return list;
+	}
+
+	public List<Claim> getClaimHistory(int user_id) {
+		List<Claim> claims = new ArrayList<Claim>();
+		List <Insurance> list = insuranceDAO.getInsurancesHistoryByUserId(user_id);
+		for(Insurance i : list) {
+			List<Claim> temp = insuranceDAO.getClaimsByInsuranceId(i.getInsurance_id());
+			for(Claim c : temp) {
+				claims.add(c);
+			}
+		}
+		return claims;
 	}
 
 

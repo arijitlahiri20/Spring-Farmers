@@ -19,6 +19,6 @@ public interface IInsuranceService {
 	
 	public List<Insurance> getInsurancesByUserId(int user_id);
 	
-	public List<Claim> getClaimsByUserId(int user_id);
+	public List<Claim> getClaimsByInsuranceId(int insurance_id);
 	
 }

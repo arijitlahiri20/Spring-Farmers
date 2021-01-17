@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +13,7 @@ import com.lti.dto.ListStatus;
 import com.lti.dto.RegisterStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
+import com.lti.dto.UploadPh;
 import com.lti.entities.Bids;
 import com.lti.entities.SellRequests;
 import com.lti.entities.SoldHistory;
@@ -45,6 +45,29 @@ public class FarmerController {
 			return status;
 		}
 	}
+	
+	@PostMapping("/farmer/upload-ph")
+	public @ResponseBody Status uploadPh(UploadPh ph) {
+		try {
+			int res = farmerService.uploadPhCertificate(ph);
+			if(res==0) {
+				RegisterStatus status = new RegisterStatus();
+				status.setStatus(StatusType.FAILED);
+				status.setMessage("Failed to upload pH Certificate");
+				return status;
+			}
+			Status status = new Status();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Ph Certificate has been uploaded!");
+			return status;
+		}
+		catch(Exception e) {
+			RegisterStatus status = new RegisterStatus();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}	
 	
 	@PostMapping("/farmer/sold-history")
 	public @ResponseBody Status getSoldHistory(@RequestBody Users user) {

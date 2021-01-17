@@ -96,6 +96,34 @@ public class AdminService implements IAdminService {
 		List<SellRequests> list = adminDAO.getAllPendingSellRequests();
 		return list;
 	}
+	
+	public SellRequests downloadPh(int id, HttpServletRequest request) {
+		SellRequests sell = adminDAO.fetch(SellRequests.class, id);
+
+		String projPath = request.getServletContext().getRealPath("/");
+		String tempDownloadPath = projPath + "/downloads/";
+
+		File f = new File(tempDownloadPath);
+		if (!f.exists())
+			f.mkdir();
+
+		String targetPhCertificateName = tempDownloadPath + sell.getPh_certificate();
+		
+
+		//String uploadedImagesPath = "c:/uploads/";
+		String uploadedImagesPath = "/Users/rumilahiri/Desktop/Arijit/LTI /Project Gladiator/uploads/";
+
+		String sourcePhCertificateName = uploadedImagesPath + sell.getPh_certificate();
+		
+		try {
+			FileCopyUtils.copy(new File(sourcePhCertificateName), new File(targetPhCertificateName));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return sell;
+	}
 
 	public int approveSellRequest(int sell_id) {
 		int res = adminDAO.updateSellStatus(sell_id, "APPROVED");

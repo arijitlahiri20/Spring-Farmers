@@ -1,8 +1,9 @@
 package com.lti.services;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lti.daos.UserDAO;
 import com.lti.dto.UploadDocuments;
+import com.lti.entities.ContactUs;
 import com.lti.entities.UserDetails;
 import com.lti.entities.Users;
 import com.lti.exception.UserServiceException;
@@ -109,7 +111,7 @@ public class UserService implements IUserService {
 		String targetTraderLicenceName = id + "_TraderLicence_" + trader_licence.getOriginalFilename();
 		
 		try {
-			FileCopyUtils.copy(aadhar.getBytes(), new FileOutputStream(docUploadLocation+targetAadharName));
+			FileCopyUtils.copy(aadhar.getInputStream(), new FileOutputStream(docUploadLocation+targetAadharName));
 			FileCopyUtils.copy(pan.getInputStream(), new FileOutputStream(docUploadLocation+targetPanName));
 			if(user.getUser_type().equals("FARMER")) {
 				FileCopyUtils.copy(certificate.getInputStream(), new FileOutputStream(docUploadLocation+targetCertificateName));
@@ -138,6 +140,11 @@ public class UserService implements IUserService {
 	public UploadDocuments downloadDocuments(int user_id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void saveContactUs(ContactUs contact) {
+		contact.setCreated_at(new Timestamp(new Date().getTime()));
+		userDAO.save(contact);
 	}
 	
 	

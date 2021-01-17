@@ -25,7 +25,7 @@ public class InsuranceController {
 
 	@Autowired
 	private InsuranceService insuranceService;
-	
+
 	@PostMapping("/farmer/insurance/calculate")
 	public @ResponseBody Status calculatePremium(@RequestBody Insurance insurance) {
 		try {
@@ -33,18 +33,18 @@ public class InsuranceController {
 			ObjectStatus status = new ObjectStatus();
 			status.setStatus(StatusType.SUCCESS);
 			status.setMessage("Insurance applied");
-			status.setObject(i);;
+			status.setObject(i);
+			;
 			return status;
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(StatusType.FAILED);
 			status.setMessage(e.getMessage());
 			return status;
 		}
-		
+
 	}
-	
+
 	@PostMapping("/farmer/insurance/registerPolicy")
 	public @ResponseBody Status registerPolicy(@RequestBody Insurance insurance) {
 		try {
@@ -55,72 +55,106 @@ public class InsuranceController {
 			status.setMessage("Insurance applied");
 			status.setRegisteredCustomerId(id);
 			return status;
+		} catch (Exception e) {
+			RegisterStatus status = new RegisterStatus();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+
+	}
+
+	@PostMapping("/farmer/insurance/registerClaim")
+	public @ResponseBody Status registerClaim(@RequestBody Claim claim) {
+		try {
+			claim.setStatus("PENDING");
+			int id = insuranceService.registerClaim(claim);
+			RegisterStatus status = new RegisterStatus();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Applied for claim");
+			status.setRegisteredCustomerId(id);
+			return status;
+		} catch (Exception e) {
+			RegisterStatus status = new RegisterStatus();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@PostMapping("/farmer/insurance/insurance-history")
+	public @ResponseBody Status getInsuranceHistory(@RequestBody Users user) {
+		try {
+			List<Insurance> Insurance = insuranceService.getInuranceHistory(user.getUser_id());
+			ListStatus<Insurance> status = new ListStatus<Insurance>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Your Insurance History is: ");
+			status.setList(Insurance);
+			return status;
 		}
 		catch(Exception e) {
-			RegisterStatus status = new RegisterStatus();
+			Status status = new Status();
 			status.setStatus(StatusType.FAILED);
 			status.setMessage(e.getMessage());
 			return status;
 		}
 		
 	}
+	
+	@PostMapping("/farmer/insurance/claim-history")
+	public @ResponseBody Status getClaimHistory(@RequestBody Users user) {
+		try {
+			List<Claim> claims = insuranceService.getClaimHistory(user.getUser_id());
+			ListStatus<Claim> status = new ListStatus<Claim>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Your Insurance History is: ");
+			status.setList(claims);
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
 		
-		@PostMapping("/farmer/insurance/registerClaim")
-		public @ResponseBody Status registerClaim(@RequestBody Claim claim) {
-			try {
-				claim.setStatus("PENDING");
-				int id = insuranceService.registerClaim(claim);
-				RegisterStatus status = new RegisterStatus();
-				status.setStatus(StatusType.SUCCESS);
-				status.setMessage("Applied for claim");
-				status.setRegisteredCustomerId(id);
-				return status;
-			}
-			catch(Exception e) {
-				RegisterStatus status = new RegisterStatus();
-				status.setStatus(StatusType.FAILED);
-				status.setMessage(e.getMessage());
-				return status;
-			}
 	}
-		
-		@PostMapping("farmer/insurance/get-Insurances-By-UserId")
-		public @ResponseBody Status getInsuranceById(@RequestBody Users user) {
-			try {
-				List<Insurance> Insurance = insuranceService.getInsurancesByUserId(user.getUser_id());
-				
-				ListStatus<Insurance> status = new ListStatus<Insurance>();
-				status.setStatus(StatusType.SUCCESS);
-				status.setMessage("Your Insurance History is: ");
-				status.setList(Insurance);
-				return status;
-				
-			}
-			catch(Exception e) {
-				Status status = new Status();
-				status.setStatus(StatusType.FAILED);
-				status.setMessage(e.getMessage());
-				return status;
-			}
-		}
 
-		@PostMapping("farmer/insurance/get-Claims-By-UserId")
-		public @ResponseBody Status getClaimssByUserId(@RequestBody Insurance insurance) {
-			try {
-				List<Claim> Claim = insuranceService.getClaimsByUserId(insurance.getInsurance_id());
-				
-				ListStatus<Claim> status = new ListStatus<Claim>();
-				status.setStatus(StatusType.SUCCESS);
-				status.setMessage("Your claim History is: ");
-				status.setList(Claim);
-				return status;
-				
-			}
-			catch(Exception e) {
-				Status status = new Status();
-				status.setStatus(StatusType.FAILED);
-				status.setMessage(e.getMessage());
-				return status;
-			}
+	@PostMapping("farmer/insurance/get-Insurances-By-UserId")
+	public @ResponseBody Status getInsuranceById(@RequestBody Users user) {
+		try {
+			List<Insurance> Insurance = insuranceService.getInsurancesByUserId(user.getUser_id());
+
+			ListStatus<Insurance> status = new ListStatus<Insurance>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Your Insurance History is: ");
+			status.setList(Insurance);
+			return status;
+
+		} catch (Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
 		}
+	}
+
+	@PostMapping("farmer/insurance/get-Claims-By-UserId")
+	public @ResponseBody Status getClaimssByUserId(@RequestBody Insurance insurance) {
+		try {
+			List<Claim> Claim = insuranceService.getClaimsByInsuranceId(insurance.getInsurance_id());
+
+			ListStatus<Claim> status = new ListStatus<Claim>();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Your claim History is: ");
+			status.setList(Claim);
+			return status;
+
+		} catch (Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
 }
