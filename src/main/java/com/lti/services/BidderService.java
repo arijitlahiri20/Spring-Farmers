@@ -51,8 +51,8 @@ public class BidderService implements IBidderService {
 		return list;
 	}
 
-	public List<Bids> getActiveBids(int user_id) {
-		List<Bids> list = bidderDAO.getActiveBids(user_id);
+	public List<Bids> getActiveBids(int user_id, int sell_id) {
+		List<Bids> list = bidderDAO.getActiveBids(user_id , sell_id);
 		return list;
 	}
 
