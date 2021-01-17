@@ -35,8 +35,8 @@ public class FarmerService implements IFarmerService{
 		
 		MultipartFile ph_certificate = docs.getPh_certificate();
 		
-		//String docUploadLocation = "c:/uploads/";
-		String docUploadLocation = "/Users/rumilahiri/Desktop/Arijit/LTI /Project Gladiator/uploads/";
+		String docUploadLocation = "c:/uploads/";
+		//String docUploadLocation = "/Users/rumilahiri/Desktop/Arijit/LTI /Project Gladiator/uploads/";
 		String targetPhCertificateName = sell_id + "_PhCertificate_" + ph_certificate.getOriginalFilename();
 		
 		try {
