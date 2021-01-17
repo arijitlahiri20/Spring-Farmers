@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "insurance")
@@ -40,13 +41,16 @@ public class Insurance {
 
 	@Column(name = "status", length = 20)
 	private String status;
+	
+	@Transient
+	private float share_premium;
 
 	private Timestamp created_at;
 
 	public int getInsurance_id() {
 		return insurance_id;
 	}
-
+	
 	public void setInsurance_id(int insurance_id) {
 		this.insurance_id = insurance_id;
 	}
@@ -137,6 +141,14 @@ public class Insurance {
 
 	public void setCreated_at(Timestamp created_at) {
 		this.created_at = created_at;
+	}
+
+	public float getShare_premium() {
+		return share_premium;
+	}
+
+	public void setShare_premium(float share_premium) {
+		this.share_premium = share_premium;
 	}
 
 }

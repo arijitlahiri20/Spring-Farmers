@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +34,9 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private MailSender mailSender;
 	
 	@GetMapping("/admin/hello")
 	public @ResponseBody Status hellotest() {
@@ -124,6 +129,24 @@ public class AdminController {
 		}
 		catch(Exception e) {
 			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	@GetMapping("/admin/view-ph")
+	public @ResponseBody Status downloadPhCertificate(@RequestParam("sell_id") int id, HttpServletRequest request) {
+		try {
+			SellRequests sell = adminService.downloadPh(id, request);
+			ObjectStatus status = new ObjectStatus();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Ph Certificate Download Successful!");
+			status.setObject(sell);
+			return status;
+		}
+		catch(Exception e) {
+			ObjectStatus status = new ObjectStatus();
 			status.setStatus(StatusType.FAILED);
 			status.setMessage(e.getMessage());
 			return status;
@@ -229,6 +252,14 @@ public class AdminController {
 				return status;
 			}
 			else {
+				
+				SimpleMailMessage message = new SimpleMailMessage();
+				message.setFrom("projectfarmers2@gmail.com");
+				message.setTo("projectfarmers2@gmail.com");
+				message.setSubject("Your Claim Request Status");
+				message.setText("Your Claim Request with Policy No. : "+claim.getPolicy_no() +" has been Approves");
+				mailSender.send(message);
+				
 				Status status = new Status();
 				status.setStatus(StatusType.SUCCESS);
 				status.setMessage("Claim Request Approved by Admin for User!");

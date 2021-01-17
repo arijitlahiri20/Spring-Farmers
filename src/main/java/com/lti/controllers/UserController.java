@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +18,7 @@ import com.lti.dto.RegisterStatus;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
 import com.lti.dto.UploadDocuments;
+import com.lti.entities.ContactUs;
 import com.lti.entities.UserDetails;
 import com.lti.entities.Users;
 import com.lti.services.UserService;
@@ -198,6 +198,23 @@ public class UserController {
 			status.setStatus(StatusType.FAILED);
 			status.setMessage(e.getMessage());
 			return status;			
+		}
+	}
+	
+	@PostMapping("/contact-us")
+	public Status login(@RequestBody ContactUs contact) {
+		try {
+			userService.saveContactUs(contact);
+			Status status = new Status();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Contact Us Message Uploaded Successfully!");
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
 		}
 	}
 }
