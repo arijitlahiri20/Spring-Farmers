@@ -53,7 +53,7 @@ public class InsuranceService implements IInsuranceService {
 		ins.setShare_premium(share);
 		ins.setPremium_amount(prem_amount);
 		ins.setPolicy_no(ins.getInsurance_id());
-		ins.setInsurance_company("Farmers Inc.");
+		ins.setInsurance_company("Farmers Inc");
 
 		return ins;
 	}
@@ -77,7 +77,7 @@ public class InsuranceService implements IInsuranceService {
 	@Override
 	public Insurance getInsuranceById(int insurance_id) {
 		
-		return null;
+		return (Insurance) insuranceDAO.fetch(Insurance.class, insurance_id);
 	}
 
 	@Override

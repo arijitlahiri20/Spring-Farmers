@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,6 +65,26 @@ public class InsuranceController {
 		}
 
 	}
+	
+	@GetMapping("/farmer/insurance/getInsurance")
+	public @ResponseBody Status getInsurance(@RequestParam("insurance_id") int id) {
+		try {
+			Insurance ins = insuranceService.getInsuranceById(id);
+
+			ObjectStatus status = new ObjectStatus();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Insurance Details Retrieved Successfully!");
+			status.setObject(ins);
+			return status;
+		} catch (Exception e) {
+			Status status = new Status();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
+	
 
 	@PostMapping("/farmer/insurance/registerClaim")
 	public @ResponseBody Status registerClaim(@RequestBody Claim claim) {
