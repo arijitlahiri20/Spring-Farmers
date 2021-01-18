@@ -142,4 +142,23 @@ public class BidderController {
 	}
 	
 	
+	@PostMapping("/bidder/update-bid")
+	public @ResponseBody Status updateBid(@RequestBody Bids bid) {
+		try {
+			int updateBids = bidderService.updateBids(bid);
+			
+			RegisterStatus status = new RegisterStatus();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Bid Updated !");
+			status.setRegisteredCustomerId(updateBids);
+			return status;
+		}
+		catch(Exception e) {
+			RegisterStatus status = new RegisterStatus();
+			status.setStatus(StatusType.FAILED);
+			status.setMessage(e.getMessage());
+			return status;
+		}
+	}
+	
 }
