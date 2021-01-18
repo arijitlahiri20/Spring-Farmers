@@ -110,8 +110,8 @@ public class AdminService implements IAdminService {
 		String targetPhCertificateName = tempDownloadPath + sell.getPh_certificate();
 		
 
-		//String uploadedImagesPath = "c:/uploads/";
-		String uploadedImagesPath = "/Users/rumilahiri/Desktop/Arijit/LTI /Project Gladiator/uploads/";
+		String uploadedImagesPath = "c:/uploads/";
+		//String uploadedImagesPath = "/Users/rumilahiri/Desktop/Arijit/LTI /Project Gladiator/uploads/";
 
 		String sourcePhCertificateName = uploadedImagesPath + sell.getPh_certificate();
 		
@@ -205,6 +205,10 @@ public class AdminService implements IAdminService {
 			return result;
 		}
 		return 0;
+	}
+
+	public Users getUser(int user_id) {
+		return (Users) adminDAO.fetch(Users.class, user_id);
 	}
 
 }

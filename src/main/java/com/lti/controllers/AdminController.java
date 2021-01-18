@@ -102,6 +102,17 @@ public class AdminController {
 				return status;
 			}
 			else {
+				Users u = adminService.getUser(user.getUser_id());
+				
+				SimpleMailMessage message = new SimpleMailMessage();
+				message.setFrom("projectfarmers2@gmail.com");
+				message.setTo(u.getEmail());
+				message.setSubject("Registration Status");
+				message.setText("Your Registration Details and Documents have been approved!"
+						+"\n\nNow you can login using your email id and password"
+						+ "\n\nRegards\nProject Farmers");
+				mailSender.send(message);
+				
 				Status status = new Status();
 				status.setStatus(StatusType.SUCCESS);
 				status.setMessage("User Credentials Approved by Admin for Login!");
@@ -257,7 +268,8 @@ public class AdminController {
 				message.setFrom("projectfarmers2@gmail.com");
 				message.setTo("projectfarmers2@gmail.com");
 				message.setSubject("Your Claim Request Status");
-				message.setText("Your Claim Request with Policy No. : "+claim.getPolicy_no() +" has been Approves");
+				message.setText("Your Claim Request with Policy No. : "+claim.getPolicy_no() +" has been Approved"
+						+ "\n\nRegards\nProject Farmers");
 				mailSender.send(message);
 				
 				Status status = new Status();
