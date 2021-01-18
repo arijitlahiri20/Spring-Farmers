@@ -91,6 +91,11 @@ public class AdminService implements IAdminService {
 		}
 		return res;
 	}
+	
+	public void rejectUser(int user_id) {
+		UserDetails user = adminDAO.fetch(UserDetails.class, user_id);
+		adminDAO.delete(user);
+	}
 
 	public List<SellRequests> getSellPendingList() {
 		List<SellRequests> list = adminDAO.getAllPendingSellRequests();
@@ -129,6 +134,10 @@ public class AdminService implements IAdminService {
 		int res = adminDAO.updateSellStatus(sell_id, "APPROVED");
 		return res;
 	}
+	
+	public void rejectSellRequest(int sell_id) {
+		adminDAO.delete(getSellRequest(sell_id));
+	}
 
 	public List<ContactUs> getContactUsList() {
 		List<ContactUs> list = adminDAO.getAllContactUs();
@@ -146,6 +155,10 @@ public class AdminService implements IAdminService {
 		int res = adminDAO.updateInsuranceStatus(insurance_id, "APPROVED");
 		return res;
 	}
+	
+	public void rejectInsurance(int insurance_id) {
+		adminDAO.delete(getInsurance(insurance_id));
+	}
 
 	@Override
 	public List<Claim> getClaimPendingList() {
@@ -157,6 +170,10 @@ public class AdminService implements IAdminService {
 	public int approveClaim(int claim_id) {
 		int res = adminDAO.updateClaimStatus(claim_id, "APPROVED");
 		return res;
+	}
+	
+	public void rejectClaim(int claim_id) {
+		adminDAO.delete(getClaim(claim_id));
 	}
 
 	@Override
@@ -209,6 +226,26 @@ public class AdminService implements IAdminService {
 
 	public Users getUser(int user_id) {
 		return (Users) adminDAO.fetch(Users.class, user_id);
+	}
+
+	public UserDetails getUserDetails(int user_id) {
+		return (UserDetails) adminDAO.fetch(UserDetails.class, user_id);
+	}
+	
+	public SellRequests getSellRequest(int sell_id) {
+		return (SellRequests) adminDAO.fetch(SellRequests.class, sell_id);
+	}
+	
+	public Bids getBid(int bid_id) {
+		return (Bids) adminDAO.fetch(Bids.class, bid_id);
+	}
+	
+	public Insurance getInsurance(int insurance_id) {
+		return (Insurance) adminDAO.fetch(Insurance.class, insurance_id);
+	}
+	
+	public Claim getClaim(int claim_id) {
+		return (Claim) adminDAO.fetch(Claim.class, claim_id);
 	}
 
 }

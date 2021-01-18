@@ -64,9 +64,9 @@ public class UserController {
 			
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setFrom("projectfarmers2@gmail.com");
-			message.setTo("projectfarmers2@gmail.com");
-			message.setSubject("New Password from Schemes for Farmers");
-			message.setText("User Name : "+name+"\nNew Password : " +password);
+			message.setTo(user.getEmail());
+			message.setSubject("Forgot Password Status");
+			message.setText("Hi "+name+", \n\n Your Password for Farmers.io website is " +password + "\n\nRegards\nFarmers.io");
 			mailSender.send(message);
 			
 			Status status = new Status();
