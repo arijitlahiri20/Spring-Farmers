@@ -68,7 +68,7 @@ public class UserService implements IUserService {
 
 		// Logic for generating new password
 		// Pending.....
-		String newPassword = "12345";
+		String newPassword = user.getPassword();//"12345";
 
 		user.setPassword(newPassword);
 		userDAO.save(user);

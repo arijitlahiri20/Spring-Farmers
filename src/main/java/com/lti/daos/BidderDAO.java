@@ -50,11 +50,31 @@ public class BidderDAO extends GenericDAO {
 		
 		return (List<Bids>) 
 				entityManager
-				.createQuery("select u from Bids u where u.user_id = :user_id "+"and sell_id=:sell_id "+"and status=:status ", Bids.class)
+				.createQuery("select u from Bids u where u.user_id = :user_id "+"and u.sell_id=:sell_id "+"and status=:status "+ "order by u.bid_amount desc", Bids.class)
 				.setParameter("user_id", user_id)
 				.setParameter("sell_id", sell_id)
 				.setParameter("status", "PENDING").
+				setMaxResults(1).
 				getResultList();
+	}
+	
+	public boolean isBidPresent(int user_id,int sell_id) {
+		return (Long)
+				entityManager
+				.createQuery("select count(*) from Bids b where b.sell_id =:sell_id "+"and b.user_id =:user_id ")
+				.setParameter("sell_id", sell_id)
+				.setParameter("user_id", user_id)
+				.getSingleResult() == 1 ? true : false;
+	}
+
+	public int update(int user_id, int sell_id, int bid_amount) {
+		
+		return (Integer) entityManager
+				.createQuery("Update Bids u set u.bid_amount = :bid_amount where u.sell_id = :sell_id" +" and u.user_id=:user_id ")
+				.setParameter("sell_id", sell_id)
+				.setParameter("user_id", user_id)
+				.setParameter("bid_amount", bid_amount)
+				.executeUpdate();
 	}
 	
 

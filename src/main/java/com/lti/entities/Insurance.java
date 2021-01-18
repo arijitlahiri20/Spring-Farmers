@@ -43,7 +43,7 @@ public class Insurance {
 	private String status;
 	
 	@Transient
-	private float share_premium;
+	private int share_premium;
 
 	private Timestamp created_at;
 
@@ -143,11 +143,11 @@ public class Insurance {
 		this.created_at = created_at;
 	}
 
-	public float getShare_premium() {
+	public int getShare_premium() {
 		return share_premium;
 	}
 
-	public void setShare_premium(float share_premium) {
+	public void setShare_premium(int share_premium) {
 		this.share_premium = share_premium;
 	}
 

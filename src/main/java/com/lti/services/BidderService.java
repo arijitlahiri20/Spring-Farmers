@@ -56,4 +56,17 @@ public class BidderService implements IBidderService {
 		return list;
 	}
 
+	public int updateBids(Bids bid1) {
+		System.out.println(bidderDAO.isBidPresent( bid1.getUser_id(),bid1.getSell_id()) );
+		
+		if(bidderDAO.isBidPresent( bid1.getUser_id(),bid1.getSell_id()) ) {
+			System.out.println("inside if");
+			int updatebid =  bidderDAO.update(bid1.getUser_id(),bid1.getSell_id(),bid1.getBid_amount());
+			return updatebid;
+		}
+		else{
+			throw new BidderServiceException("Bid not present");
+		}
+	}
+
 }

@@ -28,28 +28,32 @@ public class InsuranceService implements IInsuranceService {
 		int amount=ins.getSum_insured()*ins.getArea();
 		int prem_amount = 0;
 		if(ins.getSeason().equals("SUMMER")) {
-			prem_amount = Math.round(amount/18);
+			prem_amount = 800*ins.getArea();
 		}
 		else if(ins.getSeason().equals("WINTER")) {
-			prem_amount = Math.round(amount/6);
+			prem_amount = 120*ins.getArea();
 		}
 		if(ins.getSeason().equals("SPRING")) {
-			prem_amount = Math.round(amount/12);
+			prem_amount = 100*ins.getArea();
 		}
-		float share = 0;
-		if(ins.getSeason().equals("RABI")) {
-			share = Math.round(prem_amount*1.5/100);
+		int share = 0;
+		if(ins.getCrop().equals("RABI")) {
+			share = (int) Math.round(prem_amount*1.5/100);
+			System.out.println("Share Premium = "+share);
 		}
-		else if(ins.getSeason().equals("KHARIF")) {
+		else if(ins.getCrop().equals("KHARIF")) {
 			share = Math.round(prem_amount*2/100);
+			System.out.println("Share Premium = "+share);
 		}
-		if(ins.getSeason().equals("HORTICULTURE")) {
+		if(ins.getCrop().equals("HORTICULTURE")) {
 			share = Math.round(prem_amount*5/100);
+			System.out.println("Share Premium = "+share);
 		}
+		//System.out.println("Share Premium = "+share);
 		ins.setShare_premium(share);
 		ins.setPremium_amount(prem_amount);
-		ins.setPolicy_no(insurance.getInsurance_id());
-		ins.setInsurance_company("Farmers Inc.");
+		ins.setPolicy_no(ins.getInsurance_id());
+		ins.setInsurance_company("Farmers Inc");
 
 		return ins;
 	}
@@ -73,7 +77,7 @@ public class InsuranceService implements IInsuranceService {
 	@Override
 	public Insurance getInsuranceById(int insurance_id) {
 		
-		return null;
+		return (Insurance) insuranceDAO.fetch(Insurance.class, insurance_id);
 	}
 
 	@Override

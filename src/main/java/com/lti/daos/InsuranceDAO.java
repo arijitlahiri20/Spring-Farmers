@@ -33,8 +33,9 @@ public class InsuranceDAO extends GenericDAO {
 
 		return (List<Claim>) 
 				entityManager
-				.createQuery("select  b from Claim b where b.insurance_id = :insurance_id", Claim.class)
+				.createQuery("select  b from Claim b where b.insurance_id = :insurance_id and b.status = :status", Claim.class)
 				.setParameter("insurance_id", insurance_id)
+				.setParameter("status", "APPROVED")
 				.getResultList();
 	}
 	
